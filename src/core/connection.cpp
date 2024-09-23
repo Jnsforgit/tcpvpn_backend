@@ -1,10 +1,10 @@
 #include "common.h"
 #include "core.h"
 
-std::atomic<int> ConnectionBase::g_atomic_connection_cnts(0);
+std::atomic<int> TcpConnection::g_atomic_connection_cnts(0);
 
 /******************************** public ********************************/
-ConnectionBase::ConnectionBase(SOCKET_T fd, char *ip, uint16_t port)
+TcpConnection::TcpConnection(SOCKET_T fd, char *ip, uint16_t port)
 {
     if (fd < 0)
     {
@@ -21,19 +21,19 @@ ConnectionBase::ConnectionBase(SOCKET_T fd, char *ip, uint16_t port)
     m_wbuf.Init();
     m_closed = false;
 
-    LOGI("[%d] %s:%d ==> [this], usrCnt[%d]", m_fd, ip, m_port, (int)ConnectionBase::g_atomic_connection_cnts);
+    LOGI("[%d] %s:%d ==> [this], usrCnt[%d]", m_fd, ip, m_port, (int)TcpConnection::g_atomic_connection_cnts);
 }
 
-ConnectionBase::~ConnectionBase()
+TcpConnection::~TcpConnection()
 {
     g_atomic_connection_cnts--;
 }
 
-ConnTask_t ConnectionBase::OnRead()
+ConnTask_t TcpConnection::OnRead()
 {
     int bytes = 0;
     std::string err_str;
-    ConnectionBase *base_ptr = this;
+    TcpConnection *base_ptr = this;
 
     bytes = m_rbuf.RecvFd(m_fd, err_str);
     if (0 >= bytes || 0 < err_str.length())
@@ -43,7 +43,7 @@ ConnTask_t ConnectionBase::OnRead()
     }
 
     return [&](){
-        if (CONN_TCP == m_type)
+        if (CONN_TCP == type)
         {
             char *pos = _strnstr(m_rbuf.Rptr(), "\r\n\r\n", m_rbuf.ReadableBytes());
             if (NULL != pos)

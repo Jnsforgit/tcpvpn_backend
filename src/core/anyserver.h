@@ -11,7 +11,7 @@
 #ifndef __ANYSERVER_H__
 #define __ANYSERVER_H__
 
-typedef std::unique_ptr<ConnectionBase> ConnPtr_t;
+typedef std::unique_ptr<TcpConnection> ConnPtr_t;
 
 class Anyserver
 {

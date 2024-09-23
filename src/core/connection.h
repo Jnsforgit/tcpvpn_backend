@@ -5,16 +5,25 @@ typedef std::function<void (void)> ConnTask_t;
 
 class ConnectionBase
 {
+public:
     typedef enum  
     {
         CONN_TCP = 0, 
         CONN_HTTP, 
         CONN_UDP, 
-    }ConnectionType_e; 
+    }ConnectionType_e;
 
+    ConnectionBase() {}
+    virtual ~ConnectionBase() = 0;  /* 声明一个纯虚析构函数 */ 
+
+    ConnectionType_e type = CONN_TCP;
+};
+
+class TcpConnection: public ConnectionBase
+{
 public:
-    ConnectionBase(SOCKET_T fd, char *ip, uint16_t port);
-    ~ConnectionBase();
+    TcpConnection(SOCKET_T fd, char *ip, uint16_t port);
+    ~TcpConnection();
 
     ConnTask_t OnRead();
 
@@ -33,7 +42,6 @@ private:
     SOCKET_T m_fd = -1;
     uint16_t m_port = 0;
     std::string m_host;
-    ConnectionType_e m_type = CONN_TCP;
 };
 
 #endif

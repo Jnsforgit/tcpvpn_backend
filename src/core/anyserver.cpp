@@ -257,7 +257,7 @@ void Anyserver::_OnListen()
             LOGD("Accept error : [%s]!", ERRSTR)
             return;
         }
-        else if (ConnectionBase::g_atomic_connection_cnts >= MAX_FD)       /* 如果客户端数量超过上限 */
+        else if (TcpConnection::g_atomic_connection_cnts >= MAX_FD)       /* 如果客户端数量超过上限 */
         {
             /* 调用send函数向客户端发送错误信息， 更加严谨的应该是返回一个html网页 */
             // SendError(cfd, "Server Busy");
@@ -272,7 +272,7 @@ void Anyserver::_OnListen()
 
         if (m_usrs.find(cfd) == m_usrs.end())
         {
-            m_usrs[cfd] = std::make_unique<ConnectionBase>(cfd, ip, port);
+            m_usrs[cfd] = std::make_unique<TcpConnection>(cfd, ip, port);
         }
 
         Utils::SetNoneBlocking(cfd);
