@@ -1,7 +1,7 @@
 #ifndef __HTTPCONNECTION_H__
 #define __HTTPCONNECTION_H__
 
-class HttpConnection : public ConnectionBase
+class HttpConnection 
 {
 public:
     HttpConnection();

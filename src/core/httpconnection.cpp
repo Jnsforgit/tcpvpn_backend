@@ -1,10 +1,10 @@
-#include "core.h"
 #include "common.h"
+#include "core.h"
 
 /******************************** public ********************************/
 HttpConnection::HttpConnection()
 {
-    m_type = CONN_HTTP;
+    
 }
 
 HttpConnection::~HttpConnection()

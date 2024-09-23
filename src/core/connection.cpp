@@ -48,7 +48,7 @@ ConnTask_t ConnectionBase::OnRead()
             char *pos = _strnstr(m_rbuf.Rptr(), "\r\n\r\n", m_rbuf.ReadableBytes());
             if (NULL != pos)
             {
-                HttpConnection *conn = dynamic_cast<HttpConnection*>(base_ptr);
+
             }
         }
     };

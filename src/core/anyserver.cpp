@@ -129,7 +129,9 @@ SOCKET_T Anyserver::_InitSocket(std::string host="0.0.0.0", uint16_t port=80)
     return fd;
 }
 
-
+/**
+ * 
+ */
 void Anyserver::_InitEventMode(int trig_mode)
 {
     /* EPOLLRDHUP宏，底层处理socket连接断开的情况 */ 
@@ -234,7 +236,9 @@ void Anyserver::_Uninit()
     }
 }
 
-
+/**
+ * 
+ */
 void Anyserver::_OnListen()
 {
     struct sockaddr_in caddr;
@@ -269,9 +273,6 @@ void Anyserver::_OnListen()
         if (m_usrs.find(cfd) == m_usrs.end())
         {
             m_usrs[cfd] = std::make_unique<ConnectionBase>(cfd, ip, port);
-            m_usrs[cfd]->OnTypeChanged = [&](ConnectionBase *new_conn) {
-                m_usrs[cfd].reset(new_conn);
-            };
         }
 
         Utils::SetNoneBlocking(cfd);
@@ -286,6 +287,9 @@ void Anyserver::_OnListen()
     } while (m_listen_event & EPOLLET);
 }
 
+/**
+ * 
+ */
 void Anyserver::_OnClose(SOCKET_T fd)
 {
     if (m_usrs.find(fd) == m_usrs.end())        /* 连接已关闭 */
@@ -310,6 +314,9 @@ void Anyserver::_OnClose(SOCKET_T fd)
     m_usrs.erase(fd);
 }
 
+/**
+ * 
+ */
 void Anyserver::_OnRead(SOCKET_T fd)
 {
     struct timeval t1;
@@ -333,6 +340,9 @@ void Anyserver::_OnRead(SOCKET_T fd)
     LOGD("[%d] read event done, using [%ld]us", fd, tt);
 }
 
+/**
+ * 
+ */
 void Anyserver::_OnWrite(SOCKET_T fd)
 {
     // // 调用Httpconnection对象的write函数

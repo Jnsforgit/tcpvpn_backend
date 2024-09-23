@@ -23,7 +23,6 @@ public:
     uint16_t Port() { return m_port; }
 
     static std::atomic<int> g_atomic_connection_cnts;
-    std::function<void (ConnectionBase *)> OnTypeChanged = nullptr;
 
 private:
 

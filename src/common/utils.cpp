@@ -17,3 +17,23 @@ int Utils::SetNoneBlocking(SOCKET_T fd)
 
     return fcntl(fd, F_SETFL, newflag);
 }
+
+char* _strnstr(const char *haystack, const char *needle, size_t len) 
+{
+    size_t i, j;
+    
+    for(i = 0; i < len; i++) 
+    {
+        for (j = 0; needle[j] && haystack[i + j] == needle[j]; j++)
+        {
+
+        }
+
+        if (needle[j] == 0)
+        {
+            return (char*)haystack + i;
+        }
+    }
+
+    return NULL;
+}
